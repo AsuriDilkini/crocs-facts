@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crocodile Facts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .fact-display {
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="fact-display" id="factDisplay">Click the button to get a crocodile fact!</div>
+    <button id="factButton">Get Random Fact</button>
+
+    <script>
+        let attempts = 0;
+        const button = document.getElementById('factButton');
+        const factDisplay = document.getElementById('factDisplay');
+
+        const yourJsonData = `{
+            "crocodile_facts": [
+                {"fact": "Crocodiles are reptiles that belong to the family Crocodylidae."},
+                {"fact": "They are found in tropical regions of Africa, Asia, the Americas, and Australia."},
+                {"fact": "Crocodiles can live for over 70 years in the wild."},
+                {"fact": "They are carnivorous and primarily eat fish, birds, and mammals."},
+                {"fact": "Crocodiles have powerful jaws that can exert tremendous pressure."},
+                {"fact": "They are excellent swimmers and can hold their breath underwater for over an hour."},
+                {"fact": "Crocodiles are ectothermic, meaning they rely on external sources to regulate their body temperature."},
+                {"fact": "They have a unique ability to see in the dark due to a reflective layer behind their retinas."},
+                {"fact": "Crocodiles communicate through a variety of vocalizations, including hissing and growling."},
+                {"fact": "Some species of crocodiles can reach lengths of over 20 feet."}
+            ]
+        }`;
+
+        button.addEventListener('click', displayRandomFact);
+
+        function displayRandomFact() {
+            if (attempts < 3) {
+                attempts++;
+                alert(`Attempt ${attempts}: You need to get closer to the button!`);
+                moveButton();
+            } else {
+                const facts = JSON.parse(yourJsonData).crocodile_facts;
+                const randomFact = facts[Math.floor(Math.random() * facts.length)];
+                factDisplay.innerText = randomFact.fact;
+            }
+        }
+
+        function moveButton() {
+            const randomX = Math.random() * (window.innerWidth - button.offsetWidth);
+            const randomY = Math.random() * (window.innerHeight - button.offsetHeight);
+            button.style.position = 'absolute';
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        }
+    </script>
+</body>
+</html>
